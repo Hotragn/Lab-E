@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+/**
+ * LABE design tokens.
+ *
+ * A paper-white operations console rather than the usual dark dashboard: the
+ * product is about accountability, and accountability reads as a document, not
+ * a cockpit. Character comes from hairline rules, wide-tracked micro-labels
+ * and tabular figures — not from gradients or glow.
+ */
+@theme {
+  --color-paper: #fbfaf8;
+  --color-surface: #ffffff;
+  --color-sunken: #f4f2ee;
+
+  --color-ink: #14151a;
+  --color-ink-soft: #565b67;
+  --color-ink-faint: #8b909c;
+
+  --color-rule: #e4e2dd;
+  --color-rule-strong: #cdc9c1;
+
+  /* Actors: a human decision and an agent action never share a colour. */
+  --color-human: #1f4fd8;
+  --color-agent: #a65a17;
+
+  /* States */
+  --color-live: #157f4b;
+  --color-deny: #b4231a;
+  --color-warn: #8f6400;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono",
+    "Roboto Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  border-color: var(--color-rule);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Micro-label: the small uppercase caption above every block of data. */
+.label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+  font-family: var(--font-mono);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* A tool arriving on the surface should be noticed, once, without bouncing. */
+@keyframes labe-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+    background-color: color-mix(in srgb, var(--color-live) 12%, transparent);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    background-color: transparent;
+  }
+}
+
+.arrive {
+  animation: labe-arrive 420ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@keyframes labe-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.pulse {
+  animation: labe-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrive,
+  .pulse {
+    animation: none;
+  }
+}
+
+/* Focus that is visible without being loud. */
+:focus-visible {
+  outline: 2px solid var(--color-human);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-human) 18%, transparent);
+}
+
+/* Scrollbars inside panels, unobtrusive. */
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-rule-strong) transparent;
+}
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background: var(--color-rule-strong);
+  border-radius: 4px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
