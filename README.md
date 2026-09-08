@@ -178,6 +178,11 @@ export const DEFAULT_POLICY = { delete_customer: "grant" };
 Be honest with yourself about `risk` — nothing can infer for you which of your
 actions would ruin someone's afternoon.
 
+## Continuous integration
+
+Every push to `main` and every pull request runs typecheck, the test suite and
+a production build ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+
 ## Running locally
 
 ```bash
