@@ -27,6 +27,9 @@ jobs:
 
       # Ordered cheapest-first so an obvious break fails in seconds rather
       # than after a full production build.
+      - name: Lint
+        run: npm run lint
+
       - name: Typecheck
         run: npm run typecheck
 
