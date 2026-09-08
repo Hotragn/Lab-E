@@ -180,8 +180,8 @@ actions would ruin someone's afternoon.
 
 ## Continuous integration
 
-Every push to `main` and every pull request runs typecheck, the test suite and
-a production build ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+Every push to `main` and every pull request runs lint, typecheck, the test
+suite and a production build ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
 ## Running locally
 
