@@ -1,11 +1,13 @@
 "use client";
 
+import { useRef } from "react";
 import { policyFor } from "@/lib/domain/authority";
 import { OPERATIONS } from "@/lib/domain/operations";
 import { KEYRING, allowedRank, words } from "@/lib/copy";
 import type { LabeState } from "@/lib/domain/types";
 import type { BridgeStatus, RegisteredTool } from "@/lib/webmcp/bridge";
 import { Button, Chip, Countdown, cx } from "./ui";
+import { useCrossColumnMotion } from "./useCrossColumnMotion";
 
 /**
  * The hero.
@@ -34,6 +36,8 @@ export function Keyring({
   onRunDemo: () => void;
   demoRunning: boolean;
 }) {
+  const surfaceRef = useRef<HTMLElement | null>(null);
+
   const base = tools
     .filter((t) => t.kind === "base")
     .slice()
@@ -46,8 +50,15 @@ export function Keyring({
     return (policy === "grant" || policy === "forbidden") && !grantedIds.has(op.id);
   });
 
+  // Recomputed on every render; the hook only acts when a row actually moved.
+  const revision = tools
+    .map((t) => `${t.kind}:${t.operationId}`)
+    .sort()
+    .join("|");
+  useCrossColumnMotion(surfaceRef, revision);
+
   return (
-    <section className="border border-rule bg-surface">
+    <section ref={surfaceRef} className="border border-rule bg-surface">
       {/* headline + scoreboard */}
       <header className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-rule px-5 py-4">
         <div>
@@ -96,7 +107,8 @@ export function Keyring({
               return (
                 <li
                   key={t.grantId}
-                  className="arrive border border-live/40 bg-live/6 px-2.5 py-2"
+                  data-motion-id={t.operationId}
+                  className="border border-live/40 bg-live/6 px-2.5 py-2"
                 >
                   <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                     <Tick tone="live" />
@@ -124,7 +136,11 @@ export function Keyring({
             })}
 
             {base.map((t) => (
-              <li key={t.name} className="flex items-baseline gap-2 px-2.5">
+              <li
+                key={t.name}
+                data-motion-id={t.operationId}
+                className="flex items-baseline gap-2 px-2.5"
+              >
                 <Tick tone="quiet" />
                 <span className="text-[13px] text-ink">{words(t.operationId)}</span>
                 <span className="num ml-auto text-[10.5px] text-ink-faint">
@@ -156,7 +172,11 @@ export function Keyring({
             {locked.map((op) => {
               const never = policyFor(state, op.id) === "forbidden";
               return (
-                <li key={op.id} className="flex items-baseline gap-2 px-2.5">
+                <li
+                  key={op.id}
+                  data-motion-id={op.id}
+                  className="flex items-baseline gap-2 px-2.5"
+                >
                   <Lock never={never} />
                   <span
                     className={cx(
