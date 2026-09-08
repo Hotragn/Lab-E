@@ -1,7 +1,7 @@
 # Tests
 
 ```bash
-npm test          # 103 tests, 5 files
+npm test          # 136 tests, 6 files
 npm run typecheck # tsc --noEmit, strict
 npm run build     # production build
 ```
@@ -13,6 +13,7 @@ explicitly, which is what makes expiry behaviour testable at all.
 |---|---:|---|
 | [`lib/domain/sha256.test.ts`](../lib/domain/sha256.test.ts) | 5 | The hash is really SHA-256 |
 | [`lib/domain/ledger.test.ts`](../lib/domain/ledger.test.ts) | 9 | Tampering is detectable, and where |
+| [`lib/domain/injection.test.ts`](../lib/domain/injection.test.ts) | 33 | Each quarantine rule fires — and does not over-fire |
 | [`lib/domain/authority.test.ts`](../lib/domain/authority.test.ts) | 21 | The authorisation decision matrix |
 | [`lib/domain/store.test.ts`](../lib/domain/store.test.ts) | 31 | End-to-end incident flows |
 | [`lib/webmcp/bridge.test.ts`](../lib/webmcp/bridge.test.ts) | 37 | **The thesis: tools appear and vanish** |
