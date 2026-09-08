@@ -192,6 +192,7 @@ npm run dev
 
 ```bash
 npm test          # 103 tests
+npm run lint
 npm run typecheck
 npm run build
 ```
