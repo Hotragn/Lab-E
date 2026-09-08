@@ -61,16 +61,6 @@ export const PANELS = {
   surface: { title: "What the AI can do right now", sub: "registered tools" },
 } as const;
 
-export const SURFACE_GROUPS = {
-  always: { title: "Always allowed", sub: "registered permanently" },
-  granted: { title: "You approved these", sub: "registered while your grant lives" },
-  withheld: { title: "Not available to it", sub: "never registered" },
-  withheldNote:
-    "The AI is not refused when it tries these. They simply are not in the list of things it can do, so it cannot try.",
-  grantedEmpty:
-    "You have not approved anything. Right now the AI cannot change a single thing here.",
-} as const;
-
 export const TABS = {
   agent: { title: "Try it", sub: "agent console" },
   ledger: { title: "History", sub: "audit ledger" },

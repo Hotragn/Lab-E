@@ -13,16 +13,6 @@ export type Tone =
   | "warn"
   | "quiet";
 
-const TONE_TEXT: Record<Tone, string> = {
-  neutral: "text-ink",
-  human: "text-human",
-  agent: "text-agent",
-  live: "text-live",
-  deny: "text-deny",
-  warn: "text-warn",
-  quiet: "text-ink-faint",
-};
-
 const TONE_CHIP: Record<Tone, string> = {
   neutral: "border-rule-strong bg-sunken text-ink",
   human: "border-human/30 bg-human/8 text-human",
@@ -172,47 +162,10 @@ export function Button({
   );
 }
 
-/* ---------------------------------- field --------------------------------- */
-
-export function Field({
-  label,
-  children,
-  hint,
-}: {
-  label: string;
-  children: ReactNode;
-  hint?: string;
-}) {
-  return (
-    <label className="flex flex-col gap-1">
-      <span className="label">{label}</span>
-      {children}
-      {hint ? <span className="text-[11px] text-ink-faint">{hint}</span> : null}
-    </label>
-  );
-}
-
 export const inputClass =
   "w-full border border-rule-strong bg-surface px-2 py-1.5 font-mono text-[12px] text-ink placeholder:text-ink-faint focus:border-human focus:outline-none";
 
 /* ---------------------------------- misc ---------------------------------- */
-
-export function KeyValue({
-  k,
-  v,
-  tone = "neutral",
-}: {
-  k: string;
-  v: ReactNode;
-  tone?: Tone;
-}) {
-  return (
-    <div className="flex items-baseline justify-between gap-3 py-1">
-      <span className="label shrink-0">{k}</span>
-      <span className={cx("num text-right text-[12px]", TONE_TEXT[tone])}>{v}</span>
-    </div>
-  );
-}
 
 export function Empty({ children }: { children: ReactNode }) {
   return (
@@ -220,10 +173,6 @@ export function Empty({ children }: { children: ReactNode }) {
       {children}
     </p>
   );
-}
-
-export function Rule() {
-  return <hr className="my-3 border-t border-rule" />;
 }
 
 /** Countdown bar for a live grant. Reads as time, not as decoration. */
