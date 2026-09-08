@@ -240,6 +240,13 @@ needs the same policy mirrored server-side, approvals bound to an authenticated
 identity, and server-issued expiry so the client clock does not matter. Those
 gaps are listed explicitly in [docs/SECURITY.md](docs/SECURITY.md).
 
+**Not applicable at all:** agents that drive the browser by reading the screen
+and clicking. They never touch the tool surface, so nothing here constrains
+them — such an agent could approve its own request. No page-level code can fix
+that, because a click carries no proof of who made it. See
+[the threat model](docs/SECURITY.md#out-of-scope-and-worth-stating-loudly-screen-control-agents)
+for why, and what does work instead.
+
 Adoption is also early: as of this writing no mainstream AI assistant consumes
 WebMCP tools in the wild. This is infrastructure for a thing that is arriving,
 not a product with users.

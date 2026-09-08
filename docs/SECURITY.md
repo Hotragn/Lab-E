@@ -27,6 +27,43 @@ Explicitly **not** in scope: a compromised origin (attacker-served JavaScript
 owns the page and there is nothing left to defend), and the browser
 implementation of WebMCP itself.
 
+### Out of scope, and worth stating loudly: screen-control agents
+
+An agent that drives the browser by **reading the screen and clicking** — the
+computer-use or browser-automation approach — is not covered by anything in
+this document, and cannot be.
+
+Such an agent never touches the tool surface, so every control below is
+irrelevant to it. On this console it could:
+
+- click **Approve** on its own pending request
+- open the policy editor and set every operation to `auto`
+- press the human-only buttons that LABE deliberately never registers as tools
+
+This is not a gap that page-level code can close. An agent clicking your
+interface has, by construction, exactly the authority of the person sitting at
+that computer — because from the page's point of view it *is* that person. A
+click carries no provenance. There is no reliable in-page signal separating
+"a human pressed this" from "software pressed this", and the plausible
+candidates (mouse-movement heuristics, timing analysis, CAPTCHAs) are both
+defeatable and hostile to assistive technology.
+
+The defences that do work all live outside the page:
+
+- **The agent host prompting the user** before consequential clicks. This is
+  the main practical defence today, and it is a policy decision by the agent
+  vendor, not something a site controls.
+- **Server-side enforcement.** If the endpoint itself demands a fresh,
+  scoped approval, it stops mattering who or what clicked. This is the control
+  that actually holds, and it is the same conclusion the limitations table
+  below reaches by another route.
+- **Authenticated identity**, so the record says *who*, not just *what*.
+
+The honest framing: WebMCP is the surface LABE can shape, and it shapes it
+tightly. Pixels are a surface nobody can shape. If agents are going to act on
+your site either way — and they are — a narrow, well-described tool list is the
+better front door. It is not a substitute for locking the window.
+
 ---
 
 ## Control 1 — capability by registration
@@ -155,6 +192,8 @@ well-behaved agent behave well.
 | Limitation | Why it stands |
 |---|---|
 | Ledger is tamper-evident, not tamper-proof | Client-only state. Needs a server notary or a key the client never holds |
+| `actor: "human"` means "came from the UI", not "a person did this" | A click carries no provenance, so a screen-control agent pressing a button is recorded as human activity. Only authenticated identity fixes this |
+| Screen-control agents are entirely out of scope | They bypass the tool surface, so no control here applies. See the threat model above |
 | Injection rules are regex and bypassable | Filters always are. Layered under the authority gate rather than trusted |
 | Approval is a UI click, not a signed act | No identity provider in a no-login demo. Real deployments should bind approvals to an authenticated operator |
 | No rate limiting | A registered tool with a 5-use grant can be called 5 times as fast as the host likes |
