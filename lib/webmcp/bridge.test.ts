@@ -224,6 +224,17 @@ describe("the grant-gated surface", () => {
     expect(recordFor("rollback_deploy")?.descriptor.annotations?.readOnlyHint).toBe(false);
   });
 
+  it("never offers a granted tool cross-origin", () => {
+    // The same-origin assertion at startup only sees base tools. Granted
+    // tools are the irreversible ones, so this is the case that matters:
+    // even were READ_ONLY_EXPOSED_TO populated, the forwarding condition
+    // requires readOnlyHint, which a granted tool never carries.
+    approveRollback();
+    const record = recordFor("rollback_deploy")!;
+    expect(record.options?.exposedTo).toBeUndefined();
+    expect(record.descriptor.annotations?.readOnlyHint).toBe(false);
+  });
+
   it("withdraws the tool once its single use is spent", async () => {
     approveRollback({ maxUses: 1 });
     expect(names()).toContain("rollback_deploy");

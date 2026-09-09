@@ -52,8 +52,20 @@ export type ResultMode = "content" | "string";
 
 /**
  * Origins allowed to discover this page's read-only tools cross-origin.
- * Empty by default: the option is only passed when an allowlist exists, so the
- * default posture is same-origin. Irreversible tools ignore this entirely.
+ *
+ * **This being empty is a decision, not a TODO.** Populating it lets an agent
+ * running on another origin discover and call these tools through the user's
+ * session — a different trust question from "may an agent act here at all".
+ * There is no origin this app trusts that way, so there is nothing to list.
+ *
+ * The constant is kept rather than deleted so the decision is legible: an
+ * empty, named, documented allowlist records that the question was asked,
+ * where an absent call to `exposedTo` would look like an oversight.
+ *
+ * Note what it structurally cannot do. `register()` only forwards this for
+ * descriptors annotated `readOnlyHint: true`, so a misconfiguration here
+ * widens reads and nothing else — irreversible tools are never offered
+ * cross-origin under any value. See docs/SECURITY.md, Control 5.
  */
 export const READ_ONLY_EXPOSED_TO: string[] = [];
 

@@ -191,7 +191,7 @@ npm run dev
 ```
 
 ```bash
-npm test          # 136 tests
+npm test          # 137 tests
 npm run lint
 npm run typecheck
 npm run build
@@ -234,7 +234,7 @@ Worth being straight about, because "security demo" invites over-reading.
 
 **Real:** the mechanism. Tools genuinely appear and disappear via
 `registerTool` and `AbortController`. Grants genuinely pin parameters into the
-schema. The ledger genuinely detects tampering. 136 tests cover it, including
+schema. The ledger genuinely detects tampering. 137 tests cover it, including
 the withdrawal paths.
 
 **Not real:** the servers. There is no production system behind this — no
