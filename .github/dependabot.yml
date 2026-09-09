@@ -1,0 +1,36 @@
+version: 2
+
+updates:
+  # Application dependencies.
+  #
+  # Grouped so a quiet week produces one reviewable PR rather than a dozen.
+  # Major bumps are deliberately left ungrouped and arrive on their own, since
+  # those are the ones that need a changelog read rather than a glance at CI.
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      dev-minor-and-patch:
+        dependency-type: development
+        update-types: [minor, patch]
+      prod-patch:
+        dependency-type: production
+        update-types: [patch]
+
+  # The workflow's own actions.
+  #
+  # This is the one that would have caught the Node 20 deprecation on
+  # actions/checkout and actions/setup-node before it started annotating
+  # every run (see #8).
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci
