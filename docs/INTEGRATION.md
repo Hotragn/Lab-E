@@ -191,8 +191,21 @@ dispatch({
 never passed and tools stay same-origin. The code path can only ever widen
 tools annotated `readOnlyHint: true`.
 
-Leave it empty unless you have a specific partner origin in mind, and never add
-one for a tool that changes state.
+**Leave it empty unless you can name the origin and say why you trust it.**
+Populating this does not mean "let agents work here" — agents already can. It
+means "let a *different site* call this capability through your user's
+session". That is a much larger claim, and the bar is whether you would trust
+that origin to act on your user's behalf, not whether you recognise it.
+
+Never add one for a tool that changes state. The forwarding condition already
+prevents it, but the rule is worth holding independently of the code enforcing
+it, because someone will eventually change the code.
+
+If you are copying this file as a starting point, copy the empty array too.
+A plausible-looking placeholder origin is worse than nothing — it reads as an
+endorsed pattern. Our [field survey](FIELD-SURVEY.md) found zero of four public
+WebMCP implementations using `exposedTo` at all, so there is no convention here
+yet to defer to.
 
 ---
 

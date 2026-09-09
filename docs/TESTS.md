@@ -1,7 +1,7 @@
 # Tests
 
 ```bash
-npm test          # 136 tests, 6 files
+npm test          # 137 tests, 6 files
 npm run typecheck # tsc --noEmit, strict
 npm run build     # production build
 ```
@@ -16,7 +16,7 @@ explicitly, which is what makes expiry behaviour testable at all.
 | [`lib/domain/injection.test.ts`](../lib/domain/injection.test.ts) | 33 | Each quarantine rule fires — and does not over-fire |
 | [`lib/domain/authority.test.ts`](../lib/domain/authority.test.ts) | 21 | The authorisation decision matrix |
 | [`lib/domain/store.test.ts`](../lib/domain/store.test.ts) | 31 | End-to-end incident flows |
-| [`lib/webmcp/bridge.test.ts`](../lib/webmcp/bridge.test.ts) | 37 | **The thesis: tools appear and vanish** |
+| [`lib/webmcp/bridge.test.ts`](../lib/webmcp/bridge.test.ts) | 38 | **The thesis: tools appear and vanish** |
 
 ---
 
@@ -123,7 +123,7 @@ successes and denials; `operationDigest` reports what is callable right now;
 *Wiring* — subscribers fire only on real change; bad input returns a structured
 error rather than throwing.
 
-### Bridge · 37 tests
+### Bridge · 38 tests
 
 *Startup* — `document.modelContext` found; exactly the eight base tools
 registered; every one registered with the real API; every one given an

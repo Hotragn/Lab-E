@@ -156,6 +156,40 @@ configuration. This follows
 read-write tools should reach only origins you genuinely trust to act on the
 user's behalf.
 
+### Why the array is empty, and why that is not a TODO
+
+An empty array next to a comment looks like unfinished work, and the obvious
+"fix" is to populate it. That instinct is wrong here, so the reasoning is worth
+stating rather than leaving implied.
+
+**What `exposedTo` actually changes.** By default a registered tool is visible
+only to an agent operating on this origin. Passing `exposedTo: ["https://x"]`
+lets an agent running in the context of `x` discover and call it. That is a
+different trust question from "may an agent act here at all" — it is "may
+*another site* borrow this capability through the user's session".
+
+**Why widening is off by default rather than configured.** The honest answer is
+that there is no origin this demo trusts. There is no partner, no first-party
+companion app, nothing on the other end. An allowlist with a plausible-looking
+entry in it would be theatre, and worse, it would read as a pattern to copy.
+
+**Why the lever exists at all.** Deleting it would hide the decision. A reader
+would have no way to tell whether same-origin was chosen or simply never
+considered. Keeping a named, empty, documented constant records that the
+question was asked.
+
+**What it structurally cannot do.** The check in `register()` is
+`descriptor.annotations?.readOnlyHint === true && READ_ONLY_EXPOSED_TO.length > 0`.
+So even a populated allowlist cannot reach a state-changing tool — a
+misconfiguration widens reads and nothing else. `bridge.test.ts` asserts
+`exposedTo` is `undefined` on every registration in the default posture,
+including on granted tools.
+
+**Nobody else is exercising this yet.** Our own [field survey](FIELD-SURVEY.md)
+found **zero of four** public WebMCP reference implementations passing
+`exposedTo`. There is no convention to copy, which is a reason to be
+conservative rather than a reason to guess.
+
 ## Control 6 — tamper-evident audit
 
 Append-only, hash-chained with SHA-256. Each entry commits to its predecessor,
